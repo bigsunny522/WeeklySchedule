@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        text-align: center;
+      }
+      h2 {
+        color: #333;
+      }
+      form {
+        width: 300px;
+        margin: 0 auto;
+      }
+      label {
+        display: inline-block;
+        width: 100px;
+        font-weight: bold;
+        text-align: left;
+      }
+      input[type="date"],
+      input[type="time"],
+      input[type="text"],
+      select {
+        width: calc(100% - 120px);
+        padding: 5px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        font-family: inherit;
+      }
+      .submit {
+        margin-top: 20px;
+        padding: 8px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .cansel{
+        margin-top: 20px;
+        padding: 8px 20px;
+        background-color: #ffb6c1;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .submit:hover {
+        background-color: #0056b3;
+      }
+      .cansel:hover {
+        background-color: #de82a7;
+      }
+
+    </style>
+  </head>
+  <body>
+    <h2>予定を登録</h2>
+    <form>
+      <label for="date">日付:</label>
+      <input type="date" id="date" name="date" required="required" value="<?php echo date('Y-m-d'); ?>"><br><br>
+      <label for="startTime">開始時間:</label>
+      <input type="time" id="startTime" name="startTime"><br><br>
+      <label for="endTime">終了時間:</label>
+      <input type="time" id="endTime" name="endTime" required="required"><br><br>
+      <label for="content">内容:</label>
+      <input type="text" id="content" name="content" required="required"><br><br>
+      <label for="tag">タグ:</label>
+      <select id="tag" name="tag">
+        <option value="予定">予定</option>
+        <option value="課題">課題</option>
+        <option value="趣味">趣味</option>
+        <option value="その他">その他</option>
+      </select><br><br>
+      <input type="button" class="submit" value="登録" onclick="registerData()">
+      <input type="button" class="cansel" value="キャンセル" onclick="google.script.host.close()">
+    </form>
+    <script>
+      function registerData() {
+        var date = document.getElementById("date").value;
+        var startTime = document.getElementById("startTime").value;
+        var endTime = document.getElementById("endTime").value;
+        var content = document.getElementById("content").value;
+        var tag = document.getElementById("tag").value;
+
+        google.script.run.registerData(date, startTime, endTime, content, tag);
+        google.script.host.close();
+      }
+    </script>
+  </body>
+</html>
