@@ -45,32 +45,42 @@ function copyDataToHomeSheet() {
     }
     // 今週の予定の場合
     else if (date >= today && date < nextWeek) {
-      var targetRow = findEmptyRow(targetSheet, 21); // U列
+      var targetRow = findEmptyRow(targetSheet, 21,0); // U列
       targetSheet.getRange(targetRow, 21).setValue(date);
       targetSheet.getRange(targetRow, 22).setValue(content);
       sourceSheet.getRange(i + 1, 6).setValue("Done"); // F列に特定の値を入れる
       targetSheet.getRange(targetRow, 22).setBackground(color); // 背景色を変更する
       targetSheet.getRange("U3:V").sort({column: 21, ascending: true});
+      if (tag === "課題") {
+        var targetRow = findEmptyRow(targetSheet, 17,20); // Q列
+        targetSheet.getRange(targetRow, 17).setValue(date);
+        targetSheet.getRange(targetRow, 18).setValue(content);
+      }
     }
     // 来週以降の予定の場合
     else if (date >= nextWeek) {
-      var targetRow = findEmptyRow(targetSheet, 24); // X列
+      var targetRow = findEmptyRow(targetSheet, 24,0); // X列
       targetSheet.getRange(targetRow, 24).setValue(date);
       targetSheet.getRange(targetRow, 25).setValue(content);
       sourceSheet.getRange(i + 1, 6).setValue("Done"); // F列に特定の値を入れる
       targetSheet.getRange(targetRow, 25).setBackground(color); // 背景色を変更する
       targetSheet.getRange("X3:Y").sort({column: 24, ascending: true});
+      if (tag === "課題") {
+        var targetRow = findEmptyRow(targetSheet, 17,20); // Q列
+        targetSheet.getRange(targetRow, 17).setValue(date);
+        targetSheet.getRange(targetRow, 18).setValue(content);
+      }
 
     }
   }
 }
 
 // 指定した列から空白行を探す関数
-function findEmptyRow(sheet, column) {
+function findEmptyRow(sheet, column,startfindrow) {
   var values = sheet.getRange(4, column, sheet.getLastRow() - 3).getValues();
   for (var i = 0; i < values.length; i++) {
-    if (values[i][0] === "") {
-      return i + 3;
+    if (values[startfindrow+i][0] === "") {
+      return startfindrow+i + 3;
     }
   }
   return sheet.getLastRow() + 1;
